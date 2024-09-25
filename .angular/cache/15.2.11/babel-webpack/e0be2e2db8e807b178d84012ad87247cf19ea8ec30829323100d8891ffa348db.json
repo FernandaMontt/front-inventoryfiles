@@ -1,1 +1,0 @@
-{"ast":null,"code":"export const environment = {\n  production: true,\n  base_url: \"http://localhost:9080/v1\"\n};","map":null,"metadata":{},"sourceType":"module","externalDependencies":[]}
