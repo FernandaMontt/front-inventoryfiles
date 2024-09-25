@@ -1,0 +1,99 @@
+.carousel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px; /* Ajusta la altura deseada */
+  margin: 45px;
+  margin-bottom: 80px;
+  border: 2px;
+  border-color: #3577bc;
+}
+
+.carousel-inner {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: relative;
+  overflow: hidden; /* Asegura que las imágenes no desborden el contenedor */
+  border: 2px;
+  border-color: #3577bc;
+}
+
+.carousel-inner img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ajusta el tamaño de las imágenes para que cubran el contenedor */
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  transition: opacity 1s ease;
+}
+
+.carousel-inner .current-img {
+  opacity: 1;
+  z-index: 1;
+}
+
+.carousel-inner .previous-img,
+.carousel-inner .next-img {
+  opacity: 0;
+  z-index: 0;
+}
+
+.carousel-inner.slide-previous .previous-img {
+  opacity: 1;
+  z-index: 1;
+}
+
+.carousel-inner.slide-previous .current-img {
+  opacity: 0;
+  z-index: 0;
+}
+
+.carousel-inner.slide-next .next-img {
+  opacity: 1;
+  z-index: 1;
+}
+
+.carousel-inner.slide-next .current-img {
+  opacity: 0;
+  z-index: 0;
+}
+.progress-bar-container {
+  background-color: rgba(53, 118, 188, 0);
+  height: 7px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.progress-bar {
+  background: linear-gradient(to right, #3577bc, #78b4f4, #fff);
+  height: 100%;
+  width: 0%;
+  animation: progress-animation 5s linear infinite;
+}
+
+@keyframes progress-animation {
+  0% {
+    width: 0%;
+  }
+  20% {
+    width: 20%;
+  }
+  40% {
+    width: 40%;
+  }
+  60% {
+    width: 50%;
+  }
+  70% {
+    width: 60%;
+  }
+  90% {
+    width: 70%;
+  }
+  100% {
+    width: 100%;
+  }
+}

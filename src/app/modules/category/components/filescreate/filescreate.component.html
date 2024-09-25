@@ -1,0 +1,457 @@
+<mat-card style="background: #ffffff; color: black;">
+  <h1 style="color: rgb(0, 55, 111); margin-left: 2%; margin-top: 2%;" class="alinear"><strong>Crear Definición</strong></h1>
+
+  <!-- Contenedor general con borde -->
+  <div style="border: 2px solid #0b3d91; padding: 24px; border-radius: 8px;">
+    <!-- Sección con borde alrededor del formulario -->
+    <div style="border: 1px solid #ccc; padding: 16px; border-radius: 4px; background-color: rgb(255, 255, 255);">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <mat-card-header fxFlex="20%">
+          <mat-card-title>Twins Definition</mat-card-title>
+        </mat-card-header>
+        <mat-card-content fxFlex="80%">
+          <form [formGroup]="myGroup">
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+              <label class="custom-label">Twins Name</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Twinsname" formControlName="twinsname" required />
+              </mat-form-field>
+              <label class="custom-label">Created At</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Createdat" formControlName="createdat" required />
+              </mat-form-field>
+              <label class="custom-label">Version</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Version" formControlName="version" required />
+              </mat-form-field>
+            </div>
+      
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+              <label class="custom-label">Descripción</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Descripción" formControlName="description" required />
+              </mat-form-field>
+              <label class="custom-label">Created By</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Createdby" formControlName="createdby" required />
+              </mat-form-field>
+              <label class="custom-label">State</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="State" formControlName="state" required />
+              </mat-form-field>
+            </div>
+      
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+              <label class="custom-label">Id</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Id" formControlName="id" required />
+              </mat-form-field>
+            </div>
+          </form>
+        </mat-card-content>
+      </div>
+    </div>
+
+     <!-- Panel expandible -->
+     <mat-expansion-panel #expansionPanel style="background-color: rgba(192, 192, 192, 0.799); color: black;">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span style="color: black;">File A Definition</span>
+        </mat-panel-title>
+        <mat-panel-description>
+          <mat-icon style="color: blue;">{{ expansionPanel.expanded ? 'remove' : 'add' }}</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+    
+      <!-- Contenido que se colapsa/expande -->
+      <div style="border: 1px solid #ccc; padding: 16px; border-radius: 4px; margin-bottom: 16px; ">
+        <form [formGroup]="mysGroup">
+          <!-- Opciones de selección -->
+          <div fxLayout="column" fxLayoutGap="8px">
+            <mat-radio-group formControlName="definitionType">
+              <mat-radio-button value="file"><span style="color: black;">Definición desde un archivo</span></mat-radio-button>
+              <mat-radio-button value="manual"><span style="color: black;">Definición manual</span></mat-radio-button>
+            </mat-radio-group>
+          </div>
+    
+          <!-- Mostrar subida de archivo si se selecciona "Definición desde un archivo" -->
+          <div *ngIf="mysGroup.get('definitionType')?.value === 'file'" fxLayout="column" fxLayoutGap="8px" style="margin-top: 16px;">
+            <label class="custom-label" style="color: black;">Seleccionar archivo</label>
+            <input type="file" (change)="onFileSelected($event)" />
+          </div>
+    
+          <!-- Mostrar formulario vacío si se selecciona "Definición manual" -->
+          <div *ngIf="mysGroup.get('definitionType')?.value === 'manual'" fxLayout="column" fxLayoutGap="16px" style="margin-top: 16px;">
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+              <label class="custom-label" style="color: black;">File Name</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="FileName" formControlName="filename" required />
+              </mat-form-field>
+    
+              <label class="custom-label" style="color: black;">Column Format</label>
+              <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxFlex="25">
+                <mat-radio-group formControlName="columnFormat" fxLayout="row">
+                  <mat-radio-button value="fixedLength"><span style="color: black;">Fixed Length</span></mat-radio-button>
+                  <mat-radio-button value="separatedBy"><span style="color: black;">Separated By</span></mat-radio-button>
+                </mat-radio-group>
+              </div>
+    
+              <div *ngIf="mysGroup.get('columnFormat')?.value === 'separatedBy'" fxFlex="10" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+                <label class="custom-label" style="color: black;">Separator</label>
+                <mat-form-field fxFlex="25">
+                  <input matInput placeholder="Specify separator" formControlName="separator" />
+                </mat-form-field>
+              </div>
+
+              <label class="custom-label" style="color: black;">Column Definitions</label>
+                <button mat-raised-button style="background-color: blue;" (click)="onEditColumns()">
+                  Ver/Editar
+              </button>
+
+              
+            </div>
+    
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+              <label class="custom-label" style="color: black;">Descripción</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Descripción" formControlName="description" required />
+              </mat-form-field>
+              
+               <!-- Mat Table -->
+               <div style="overflow: hidden; padding-left: 300px; width: 500px;"> <!-- Ajusta el valor de padding según sea necesario -->
+                <mat-table [dataSource]="dataSourceColumnas" class="mat-elevation-z8">
+                  <ng-container matColumnDef="columnName">
+                    <mat-header-cell *matHeaderCellDef style="background-color: #003366; color: white;"> Field </mat-header-cell>
+                    <mat-cell *matCellDef="let element" style="background-color: #bbb8b8; color: black;"> {{element.columnName}} </mat-cell>
+                  </ng-container>
+              
+                  <ng-container matColumnDef="columnType">
+                    <mat-header-cell *matHeaderCellDef style="background-color: #003366; color: white;"> Type </mat-header-cell>
+                    <mat-cell *matCellDef="let element" style="background-color: #bbb8b8; color: black;"> {{element.columnType}} </mat-cell>
+                  </ng-container>
+
+                  <ng-container matColumnDef="columnUnique">
+                    <mat-header-cell *matHeaderCellDef style="background-color: #003366; color: white;"> Unique </mat-header-cell>
+                    <mat-cell *matCellDef="let element" style="background-color: #bbb8b8; color: black;"> {{element.columnUnique}} </mat-cell>
+                  </ng-container>
+              
+                  <mat-header-row *matHeaderRowDef="displayedColumnsColumnas"></mat-header-row>
+                  <mat-row *matRowDef="let row; columns: displayedColumnsColumnas;"></mat-row>
+                </mat-table>
+              </div>
+
+
+              <div style="display: flex; flex-direction: column; gap: 8px;"> <!-- Espacio entre botones -->
+                
+                <button mat-raised-button style="background-color: blue;" (click)="onVerifyDefinition()">
+                  Verificar Definición
+                </button>
+                <button mat-raised-button color="warn" (click)="onGenerateTestFile()">
+                  Generar Archivo de Prueba
+                </button>
+              </div>
+
+            </div>
+    
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+              <label class="custom-label" style="color: black;" >File Type</label>
+              <mat-form-field fxFlex="25">
+                <mat-select placeholder="Select file type" formControlName="fileType">
+                  <mat-option *ngFor="let type of fileTypes" [value]="type">{{ type }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            
+              <label class="custom-label" style="color: black;">Row</label>
+              <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxFlex="25">
+                <mat-radio-group formControlName="rowType">
+                  <mat-radio-button value="containsHeaders"><span style="color: black;">Contains Headers</span></mat-radio-button>
+                  <mat-radio-button value="noHeaders"><span style="color: black;">No Headers</span></mat-radio-button>
+                </mat-radio-group>
+              </div>
+
+             
+            </div>
+            
+            
+    
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+              <!-- File Encoding combobox -->
+              <label class="custom-label" style="color: black;">File Encoding</label>
+              <mat-form-field fxFlex="25">
+                <mat-select placeholder="Select file encoding" formControlName="fileEncoding">
+                  <mat-option *ngFor="let encoding of encodings" [value]="encoding">{{ encoding }}</mat-option>
+                </mat-select>
+              </mat-form-field>
+    
+              <!-- Row Ending text field -->
+              <label class="custom-label" style="color: black;">Row Ending</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Row Ending" formControlName="rowEnding" required />
+              </mat-form-field>
+            </div>
+    
+          </div>
+        </form>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel #expansionPanel2>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          File B Definition
+        </mat-panel-title>
+        <mat-panel-description>
+          <!-- Usa la referencia local 'expansionPanel' para verificar si está expandido o no -->
+          <mat-icon>{{ expansionPanel2.expanded ? 'remove' : 'add' }}</mat-icon>
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+
+    <!-- Contenido que se colapsa/expande -->
+    <div style="border: 1px solid #ccc; padding: 16px; border-radius: 4px; margin-bottom: 16px;">
+      <form [formGroup]="mysBGroup">
+        <!-- Opciones de selección -->
+        <div fxLayout="column" fxLayoutGap="8px">
+          <mat-radio-group formControlName="definitionType">
+            <mat-radio-button value="file">Definición desde un archivo</mat-radio-button>
+            <mat-radio-button value="manual">Definición manual</mat-radio-button>
+          </mat-radio-group>
+        </div>
+  
+        <!-- Mostrar subida de archivo si se selecciona "Definición desde un archivo" -->
+        <div *ngIf="mysBGroup.get('definitionType')?.value === 'file'" fxLayout="column" fxLayoutGap="8px" style="margin-top: 16px;">
+          <label class="custom-label">Seleccionar archivo</label>
+          <input type="file" (change)="onFileSelectedB($event)" />
+        </div>
+  
+        <!-- Mostrar formulario vacío si se selecciona "Definición manual" -->
+        <div *ngIf="mysBGroup.get('definitionType')?.value === 'manual'" fxLayout="column" fxLayoutGap="16px" style="margin-top: 16px;">
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+            <label class="custom-label">File Name</label>
+            <mat-form-field fxFlex="25" appearance="outline">
+              <input matInput placeholder="FileName" formControlName="filename" required />
+            </mat-form-field>
+  
+            <label class="custom-label">Column Format</label>
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxFlex="25">
+              <mat-radio-group formControlName="columnFormat" fxLayout="row">
+                <mat-radio-button value="fixedLength">Fixed Length</mat-radio-button>
+                <mat-radio-button value="separatedBy">Separated By</mat-radio-button>
+              </mat-radio-group>
+            </div>
+  
+            <div *ngIf="mysBGroup.get('columnFormat')?.value === 'separatedBy'" fxFlex="25" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="8px">
+              <label class="custom-label">Separator</label>
+              <mat-form-field fxFlex="50" appearance="outline">
+                <input matInput placeholder="Specify separator" formControlName="separator" />
+              </mat-form-field>
+            </div>
+
+            <label class="custom-label">Column Definitions</label>
+              <button mat-raised-button style="background-color: blue;" (click)="onEditColumnsB()">
+                Ver/Editar
+            </button>
+          </div>
+  
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+            <label class="custom-label">Descripción</label>
+            <mat-form-field fxFlex="25" appearance="outline">
+              <input matInput placeholder="Descripción" formControlName="description" required />
+            </mat-form-field>
+            
+             <!-- Mat Table -->
+             <div style="overflow: hidden; padding-left: 300px; width: 500px;"> <!-- Ajusta el valor de padding según sea necesario -->
+              <mat-table [dataSource]="dataSourceColumnasB" class="mat-elevation-z8">
+                <ng-container matColumnDef="columnName">
+                  <mat-header-cell *matHeaderCellDef> Field </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.columnName}} </mat-cell>
+                </ng-container>
+            
+                <ng-container matColumnDef="columnType">
+                  <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.columnType}} </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="columnUnique">
+                  <mat-header-cell *matHeaderCellDef> Unique </mat-header-cell>
+                  <mat-cell *matCellDef="let element"> {{element.columnUnique}} </mat-cell>
+                </ng-container>
+            
+                <mat-header-row *matHeaderRowDef="displayedColumnsColumnasB"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumnsColumnasB;"></mat-row>
+              </mat-table>
+            </div>
+
+
+            <div style="display: flex; flex-direction: column; gap: 8px;"> <!-- Espacio entre botones -->
+              <button mat-raised-button style="background-color: blue;" (click)="onVerifyDefinitionB()">
+                Verificar Definición
+              </button>
+              <button mat-raised-button color="warn" (click)="onGenerateTestFileB()">
+                Generar Archivo de Prueba
+              </button>
+            </div>
+
+          </div>
+  
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+            <label class="custom-label">File Type</label>
+            <mat-form-field fxFlex="25" appearance="outline">
+              <mat-select placeholder="Select file type" formControlName="fileType">
+                <mat-option *ngFor="let type of fileTypesB" [value]="type">{{ type }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          
+            <label class="custom-label">Row</label>
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxFlex="25">
+              <mat-radio-group formControlName="rowType">
+                <mat-radio-button value="containsHeaders">Contains Headers</mat-radio-button>
+                <mat-radio-button value="noHeaders">No Headers</mat-radio-button>
+              </mat-radio-group>
+            </div>
+
+           
+          </div>
+          
+          
+  
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+            <!-- File Encoding combobox -->
+            <label class="custom-label">File Encoding</label>
+            <mat-form-field fxFlex="25" appearance="outline">
+              <mat-select placeholder="Select file encoding" formControlName="fileEncoding">
+                <mat-option *ngFor="let encoding of encodingsB" [value]="encoding">{{ encoding }}</mat-option>
+              </mat-select>
+            </mat-form-field>
+  
+            <!-- Row Ending text field -->
+            <label class="custom-label">Row Ending</label>
+            <mat-form-field fxFlex="25" appearance="outline">
+              <input matInput placeholder="Row Ending" formControlName="rowEnding" required />
+            </mat-form-field>
+          </div>
+  
+        </div>
+      </form>
+    </div>
+  </mat-expansion-panel>
+
+    <!-- Otra sección más -->
+      <mat-expansion-panel #expansionPanel3>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Output File Definition
+          </mat-panel-title>
+          <mat-panel-description>
+            <!-- Usa la referencia local 'expansionPanel' para verificar si está expandido o no -->
+            <mat-icon>{{ expansionPanel3.expanded ? 'remove' : 'add' }}</mat-icon>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+  
+      <!-- Contenido que se colapsa/expande -->
+      <div style="border: 1px solid #ccc; padding: 16px; border-radius: 4px; margin-bottom: 16px;">
+        <form [formGroup]="myGroup">
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+            <label class="custom-label">Twins Name</label>
+            <mat-form-field fxFlex="25" appearance="outline">
+              <input matInput placeholder="Twinsname" formControlName="twinsname" required />
+            </mat-form-field>
+  
+            <label class="custom-label">Created At</label>
+            <mat-form-field fxFlex="25" appearance="outline">
+              <input matInput placeholder="Createdat" formControlName="createdat" required />
+            </mat-form-field>
+  
+            <label class="custom-label">Version</label>
+            <mat-form-field fxFlex="25" appearance="outline">
+              <input matInput placeholder="Version" formControlName="version" required />
+            </mat-form-field>
+          </div>
+  
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+            <label class="custom-label">Descripción</label>
+            <mat-form-field fxFlex="25" appearance="outline">
+              <input matInput placeholder="Descripción" formControlName="description" required />
+            </mat-form-field>
+  
+            <label class="custom-label">Created By</label>
+            <mat-form-field fxFlex="25" appearance="outline">
+              <input matInput placeholder="Createdby" formControlName="createdby" required />
+            </mat-form-field>
+  
+            <label class="custom-label">State</label>
+            <mat-form-field fxFlex="25" appearance="outline">
+              <input matInput placeholder="State" formControlName="state" required />
+            </mat-form-field>
+          </div>
+  
+          <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+            <label class="custom-label">Id</label>
+            <mat-form-field fxFlex="25" appearance="outline">
+              <input matInput placeholder="Id" formControlName="id" required />
+            </mat-form-field>
+          </div>
+        </form>
+      </div>
+    </mat-expansion-panel>
+  
+
+    <!-- Otra sección más -->
+    <div style="border: 1px solid #ccc; padding: 16px; border-radius: 4px;">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <mat-card-header fxFlex="20%">
+          <mat-card-title>Crossover Definition</mat-card-title>
+        </mat-card-header>
+        <mat-card-content fxFlex="80%">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <!-- Columna de Descripción -->
+            <ng-container matColumnDef="description">
+              <th mat-header-cell *matHeaderCellDef> Descripción </th>
+              <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+            </ng-container>
+    
+            <!-- Columna de Elemento 1 -->
+            <ng-container matColumnDef="element1">
+              <th mat-header-cell *matHeaderCellDef> Elemento 1 </th>
+              <td mat-cell *matCellDef="let element"> {{element.element1}} </td>
+            </ng-container>
+    
+            <!-- Columna de Operador -->
+            <ng-container matColumnDef="operator">
+              <th mat-header-cell *matHeaderCellDef> Operador </th>
+              <td mat-cell *matCellDef="let element"> {{element.operator}} </td>
+            </ng-container>
+    
+            <!-- Columna de Elemento 2 -->
+            <ng-container matColumnDef="element2">
+              <th mat-header-cell *matHeaderCellDef> Elemento 2 </th>
+              <td mat-cell *matCellDef="let element"> {{element.element2}} </td>
+            </ng-container>
+    
+            <!-- Columna de Tolerancia -->
+            <ng-container matColumnDef="tolerance">
+              <th mat-header-cell *matHeaderCellDef> Tolerancia </th>
+              <td mat-cell *matCellDef="let element"> {{element.tolerance}} </td>
+            </ng-container>
+    
+            <!-- Columna de Acciones -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef> Acciones </th>
+              <td mat-cell *matCellDef="let element">
+                <button mat-button (click)="editElement(element)"><mat-icon>edit</mat-icon></button>
+                <button mat-button (click)="deleteElement(element)"><mat-icon>delete</mat-icon></button>
+              </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </mat-card-content>
+      </div>
+    </div>
+
+    <mat-card-actions style="justify-content: flex-end;">
+      <button mat-button style="background-color: #430cd7; color: white; border-radius: 5px; margin-right: 10px;">Crear</button>
+      <button mat-button style="background-color: #e74c3c; color: white; border-radius: 5px; margin-right: 10px;">Cancelar</button>
+    </mat-card-actions>
+  </div>
+</mat-card>

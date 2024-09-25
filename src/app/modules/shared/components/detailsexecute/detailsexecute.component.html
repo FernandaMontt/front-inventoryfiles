@@ -1,0 +1,54 @@
+<mat-card style="background-color: #f4f6f9; border-radius: 8px; box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); padding: 0; width: 600px;">
+    <mat-card-header style="background-color: #2c3e50; color: white; padding: 16px; border-radius: 8px 8px 0 0;">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="margin: 0;">See Details</h2>
+      </div>
+    </mat-card-header>
+    
+    <mat-card-content style="color: #2c3e50; padding: 20px;">
+      <table style="width: 100%; border-collapse: separate; border-spacing: 0 15px;">
+        <tr>
+          <td style="width: 35%; padding: 12px 10px; text-align: left; vertical-align: top;"><strong>Twin Name:</strong></td>
+          <td style="width: 65%; padding: 12px 10px; text-align: left;">{{comparacion.archivoNombreAarchivoNombreB}}</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px 10px; text-align: left; vertical-align: top;"><strong>Twins Version:</strong></td>
+          <td style="padding: 12px 10px; text-align: left;">{{comparacion.version}}</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px 10px; text-align: left; vertical-align: top;"><strong>Execution Id:</strong></td>
+          <td style="padding: 12px 10px; text-align: left;">{{comparacion.id_comparacion}}</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px 10px; text-align: left; vertical-align: top;"><strong>Executed At:</strong></td>
+          <td style="padding: 12px 10px; text-align: left;">{{comparacion.fecha_inicio}}</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px 10px; text-align: left; vertical-align: top;"><strong>Executed Creator:</strong></td>
+          <td style="padding: 12px 10px; text-align: left;">{{comparacion.creador}}</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px 10px; text-align: left; vertical-align: top;"><strong>Execution Status:</strong></td>
+          <td style="padding: 12px 10px; text-align: left;">{{comparacion.estadoArchivoB}}</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px 10px; text-align: left; vertical-align: top;"><strong>A=B:</strong></td>
+          <td style="padding: 12px 10px; text-align: left;">{{comparacion.porcentajeIgualAB + '%'}}</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px 10px; text-align: left; vertical-align: top;"><strong>A not B:</strong></td>
+          <td style="padding: 12px 10px; text-align: left;">{{comparacion.porcentajeAnotB + '%'}}</td>
+        </tr>
+        <tr>
+          <td style="padding: 12px 10px; text-align: left; vertical-align: top;"><strong>B not A:</strong></td>
+          <td style="padding: 12px 10px; text-align: left;">{{comparacion.porcentajeBnotA + '%'}}</td>
+        </tr>
+      </table>
+    </mat-card-content>
+    
+    <mat-card-actions style="background-color: #f4f6f9; padding: 16px; display: flex; justify-content: flex-end; border-radius: 0 0 8px 8px;">
+      <button mat-button (click)="onNoClick()" style="background-color: #e74c3c; color: white; border-radius: 5px; margin-right: 10px;">
+        Cancel
+      </button>
+    </mat-card-actions>
+  </mat-card>
