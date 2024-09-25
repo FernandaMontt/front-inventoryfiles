@@ -1,8 +1,0 @@
-.comparacion-container{
-    display: flex;
-    flex-direction: column;
-}
-
-.comparacion-container > * {
-    width: 100%;
-}
