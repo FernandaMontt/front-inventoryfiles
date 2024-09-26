@@ -1,4 +1,40 @@
 
+.custom-label {
+  display: flex;
+  align-items: center;
+  min-width: 100px; /* Ancho mínimo para evitar que los labels cambien de tamaño */
+  margin-right: 8px; /* Espacio entre el label y el campo de entrada */
+}
+
+.form-row {
+  margin-bottom: 16px; /* Espaciado entre las filas del formulario */
+}
+
+::ng-deep .mat-mdc-dialog-container {
+  --mdc-dialog-container-color: #ffffff;
+  --mdc-dialog-with-divider-divider-color: rgba(255, 255, 255, 0.12);
+  --mdc-dialog-subhead-color: rgba(255, 255, 255, 0.87);
+  --mdc-dialog-supporting-text-color: rgba(255, 255, 255, 0.6);
+}
+
+.custom-dialog-container {
+  background-color: #ffffff !important; /* Fondo blanco */
+  color: black !important; /* Texto en negro */
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.hidden {
+  display: none;
+}
+
+.mat-header-cell, .mat-cell {
+  padding: 4px; /* Reducir el padding para filas y celdas */
+  min-width: 80px; /* Ajusta esto según sea necesario */
+}
+
 .alinear {
     text-align: center;
     margin-top: 20px;
@@ -181,4 +217,34 @@ mat-cell mat-icon {
 ::ng-deep .mat-menu .mat-mdc-menu-item .mat-icon-no-color, 
 ::ng-deep .mat-menu .mat-mdc-menu-submenu-icon {
     color: #000000; /* Cambia el color a negro */
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  border-color: #000; /* Color del borde (negro) */
+  border-width: 1px;   /* Grosor del borde */
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline-thick {
+  border-width: 2px;   /* Borde más grueso al enfocarse */
+  border-color: #000;  /* Color del borde al enfocarse */
+}
+
+.mat-form-field {
+  border-radius: 4px;  /* Esquinas redondeadas */
+  padding: 4px;        /* Relleno opcional */
+}
+
+.mat-input-element {
+  border: 1px solid #000; /* Borde negro */
+  border-radius: 4px;     /* Esquinas redondeadas */
+  padding: 4px;
+}
+
+.mat-input-element:focus {
+  border-color: #3f51b5;  /* Cambia el borde al color principal al enfocarse */
+  border-width: 2px;
+}
+
+.mat-input-element {
+  transition: border-color 0.3s ease-in-out;
 }

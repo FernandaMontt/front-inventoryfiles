@@ -21,7 +21,11 @@ export class CategoryComponent implements OnInit{
 
   constructor(private categoryService: CategoryService,
               public dialog: MatDialog, private snackBar: MatSnackBar){ }
-
+  displayedColumns: string[] = ['id_Archivo','nombreArchivo','descripcionArchivo','fecha_creacion','owner','fecha_actualizacion','creador'
+    ,'version','estado','actions'];
+  dataSource = new MatTableDataSource<CategoryElement>();
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
   ngOnInit(): void {
     this.getCategories();
   }
@@ -31,11 +35,7 @@ export class CategoryComponent implements OnInit{
     this.dataSource.sort = this.sort;
   }
 
-  displayedColumns: string[] = ['id_Archivo','nombreArchivo','descripcionArchivo','fecha_creacion','owner','fecha_actualizacion','creador'
-    ,'version','estado','actions'];
-  dataSource = new MatTableDataSource<CategoryElement>();
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  
 
   getCategories(){
 
@@ -57,6 +57,7 @@ export class CategoryComponent implements OnInit{
         dataCategory.push(element);
       });
       this.dataSource = new MatTableDataSource<CategoryElement>(dataCategory);
+      this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
   }
 

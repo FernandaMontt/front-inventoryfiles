@@ -1,0 +1,39 @@
+<h1 mat-dialog-title style="background: #ffffff; color: black;">Column Definitions</h1>
+<div mat-dialog-content>
+  <mat-table [dataSource]="data.dataSource" class="mat-elevation-z8">
+    
+    <ng-container matColumnDef="columnName">
+      <mat-header-cell *matHeaderCellDef> Field </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.columnName}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="columnType">
+      <mat-header-cell *matHeaderCellDef> Type </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.columnType}} </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="columnUnique">
+      <mat-header-cell *matHeaderCellDef> Unique </mat-header-cell>
+      <mat-cell *matCellDef="let element"> {{element.columnUnique}} </mat-cell>
+    </ng-container>
+
+    <!-- Columna de Acciones Condicional -->
+    <ng-container matColumnDef="actions" *ngIf="data.showOutActions">
+      <mat-header-cell *matHeaderCellDef> Acciones </mat-header-cell>
+      <mat-cell *matCellDef="let element">
+        <button mat-button (click)="onEdit(element)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-button (click)="onDelete(element)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="data.displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: data.displayedColumns"></mat-row>
+  </mat-table>
+</div>
+<div mat-dialog-actions>
+  <button mat-button style="background-color: red;" (click)="onClose()">Cerrar</button>
+</div>

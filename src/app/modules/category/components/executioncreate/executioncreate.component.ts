@@ -17,112 +17,84 @@ import { ColumnDefinitionsDialogB } from '../columnsdefinitionB/columnsdefinitio
 import { ColumnDefinitionsDialogOutput } from '../columnsdefinitionoutput/columnsdefinitionoutput.component';
 
 @Component({
-  selector: 'app-filescreate',
-  templateUrl: './filescreate.component.html',
-  styleUrls: ['./filescreate.component.css']
+  selector: 'app-executioncreate',
+  templateUrl: './executioncreate.component.html',
+  styleUrls: ['./executioncreate.component.css']
 })
-export class FilesCreateComponent implements OnInit{
-  myGroup: FormGroup;
-  mysGroup: FormGroup;
+export class ExecutionCreateComponent implements OnInit{
+  myGroupDefinition: FormGroup;
+  myGroupSelected: FormGroup;
+  mysAGroup: FormGroup;
   mysBGroup: FormGroup;
-  mysOutputGroup: FormGroup;
-  showActions = false;
-  showBActions = false;
-  showOutActions = false;
-  fileTypes: string[] = ['CSV', 'TXT'];
-  encodings: string[] = ['UTF-8', 'ISO-8859-1', 'ASCII', 'UTF-16'];
-  fileTypesB: string[] = ['CSV', 'TXT'];
-  fileTypesOutput: string[] = ['CSV', 'TXT'];
-  encodingsB: string[] = ['UTF-8', 'ISO-8859-1', 'ASCII', 'UTF-16'];
-  encodingsOutput: string[] = ['UTF-8', 'ISO-8859-1', 'ASCII', 'UTF-16'];
-  displayedColumns: string[] = ['description', 'element1', 'operator', 'element2', 'tolerance', 'actions'];
-  displayedColumnsColumnas = this.showActions
-  ? ['columnName', 'columnType', 'columnUnique', 'actions']
-  : ['columnName', 'columnType', 'columnUnique'];
-  displayedColumnsColumnasB = this.showBActions
-  ? ['columnName', 'columnType', 'columnUnique', 'actions']
-  : ['columnName', 'columnType', 'columnUnique'];
-  displayedColumnsOutput = this.showOutActions
-  ? ['columnName', 'columnType', 'columnUnique', 'actions']
-  : ['columnName', 'columnType', 'columnUnique'];
-  dataSource = [
-    { description: 'Ejemplo 1', element1: 'A', operator: '+', element2: 'B', tolerance: '5%' },
-    { description: 'Ejemplo 2', element1: 'C', operator: '-', element2: 'D', tolerance: '10%' },
-  ];
-  dataSourceColumnas = new MatTableDataSource([
-    { columnName: 'Column 1', columnType: 'String', columnUnique: 'True' },
-    { columnName: 'Column 2', columnType: 'Integer', columnUnique: 'False' }
-  ]);
-  dataSourceColumnasB = new MatTableDataSource([
-    { columnName: 'Column 3', columnType: 'boolean', columnUnique: 'False' },
-    { columnName: 'Column 4', columnType: 'number', columnUnique: 'False' }
-  ]);
-  dataSourceColumnasOutput = new MatTableDataSource([
-    { columnName: 'Column 5', columnType: 'bit', columnUnique: 'False' },
-    { columnName: 'Column 6', columnType: 'varchar', columnUnique: 'True' }
-  ]);
   constructor(private categoryService: CategoryService,private fb: FormBuilder,
               public dialog: MatDialog, private snackBar: MatSnackBar){ 
-                this.myGroup = new FormGroup({
+                this.myGroupDefinition = new FormGroup({
+                  twinsname: new FormControl(''),
+                  id: new FormControl('')
+                });
+                this.myGroupSelected = this.fb.group({
                   twinsname: new FormControl(''),
                   createdat: new FormControl(''),
                   version: new FormControl(''), 
                   description: new FormControl(''), 
                   createdby: new FormControl(''), 
                   state: new FormControl(''),
-                  id: new FormControl('')
+                  id: new FormControl(''),
+                  updateat: new FormControl
                 });
-                this.mysGroup = this.fb.group({
+                this.mysAGroup = this.fb.group({
                   definitionType: ['file'],  // Valor por defecto es 'file'
-                  filename: [''],
-                  description: [''],
-                  columnFormat: ['fixedLength'], // Valor inicial de la selección
-                  separator: [''],
-                  fileType: [''],
-                  rowType: [false],
-                  fileEncoding: [''],
-                  rowEnding: ['']
+                  totalrowcount: [''],
+                  rowsok: [''],
+                  verificationstate: ['']
                 });
                 this.mysBGroup = this.fb.group({
                   definitionType: ['file'],  // Valor por defecto es 'file'
-                  filename: [''],
-                  description: [''],
-                  columnFormat: ['fixedLength'], // Valor inicial de la selección
-                  separator: [''],
-                  fileType: [''],
-                  rowType: [false],
-                  fileEncoding: [''],
-                  rowEnding: ['']
-                });
-                this.mysOutputGroup = this.fb.group({
-                  archivoOpcion: ['', Validators.required],
-                  A_B: [false], // Control para el checkbox "A = B"
-                  AnotB: [false], // Control para el checkbox "A not B"
-                  BnotA: [false],
-                  fileType: [''],
-                  fileEncoding: ['']
+                  totalrowcount: [''],
+                  rowsok: [''],
+                  verificationstate: ['']
                 });
               }
   ngOnInit(): void {
 
-    
+    this.myGroupDefinition = this.fb.group({
+      twinsname: ['', Validators.required],
+      id: ['', Validators.required],
+    });
+
+    this.myGroupSelected = this.fb.group({
+      twinsname: ['', Validators.required],
+      createdat: ['', Validators.required],
+      version: ['', Validators.required],
+      description: ['', Validators.required],
+      createdby: ['', Validators.required],
+      state: ['', Validators.required],
+      id: ['', Validators.required],
+      updateat: ['', Validators.required],
+    });
+
+    this.mysAGroup = this.fb.group({
+      totalrowcount: ['', Validators.required],
+      rowsok: ['', Validators.required],
+      verificationstate: ['', Validators.required],
+    });
+
+    this.mysBGroup = this.fb.group({
+      totalrowcount: ['', Validators.required],
+      rowsok: ['', Validators.required],
+      verificationstate: ['', Validators.required],
+    });
 
   }
 
   get definitionTypeValue(): string | null {
-    const control = this.mysGroup.get('definitionType');
+    const control = this.myGroupSelected.get('definitionType');
     return control ? control.value : null;
   }
 
   editElement(element: any) {
     // Lógica para editar el elemento
     console.log('Editar elemento:', element);
-  }
-
-  deleteElement(element: any) {
-    // Lógica para eliminar el elemento
-    console.log('Eliminar elemento:', element);
-    this.dataSource = this.dataSource.filter(item => item !== element);
   }
 
   onFileSelected(event: Event): void {
@@ -144,22 +116,6 @@ export class FilesCreateComponent implements OnInit{
       // como subirlo a un servidor o mostrar su nombre en la interfaz
     }
   }
-
-  onEditColumns(): void {
-    const dialogRef = this.dialog.open(ColumnDefinitionsDialog, {
-      panelClass: 'custom-dialog-container',
-      width: '80%',  // Puedes ajustar el tamaño del modal
-      data: {
-        dataSource: this.dataSourceColumnas,
-        displayedColumns: this.displayedColumnsColumnas,
-      }
-    });
-  
-    dialogRef.afterClosed().subscribe(result => {
-      // Maneja lo que suceda después de cerrar el modal
-    });
-  }
-
   // Método para verificar la definición
   onVerifyDefinition() {
     console.log('Verify definition clicked');
@@ -177,8 +133,7 @@ export class FilesCreateComponent implements OnInit{
       panelClass: 'custom-dialog-container',
       width: '80%',  // Puedes ajustar el tamaño del modal
       data: {
-        dataSource: this.dataSourceColumnasB,
-        displayedColumns: this.displayedColumnsColumnasB,
+
       }
     });
   
@@ -187,13 +142,11 @@ export class FilesCreateComponent implements OnInit{
     });
   }
 
-  onEditColumnsOutput(): void {
+  onEditColumnsA(): void {
     const dialogRef = this.dialog.open(ColumnDefinitionsDialogOutput, {
       panelClass: 'custom-dialog-container',
       width: '80%',  // Puedes ajustar el tamaño del modal
       data: {
-        dataSource: this.dataSourceColumnasOutput,
-        displayedColumns: this.displayedColumnsOutput,
       }
     });
   

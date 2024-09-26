@@ -10,6 +10,7 @@ import { DetailFilesComponent } from './components/detailsfiles/detailsfiles.com
 import { ExecutefileComponent } from './components/executefile/executefile.component';
 import { TestfilesComponent } from './components/testfiles/testfiles.component';
 import { DetailExecuteComponent } from './components/detailsexecute/detailsexecute.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 
@@ -20,10 +21,12 @@ import { DetailExecuteComponent } from './components/detailsexecute/detailsexecu
     DetailFilesComponent,
     ExecutefileComponent,
     TestfilesComponent,
-    DetailExecuteComponent
+    DetailExecuteComponent,
+    FooterComponent
   ],
   exports: [
-    SidenaComponent
+    SidenaComponent,
+    FooterComponent
   ]
   ,
   imports: [

@@ -19,6 +19,8 @@ import { NewfilesComponent } from './components/newfiles/newfiles.component';
 import { FilesCreateComponent } from './components/filescreate/filescreate.component';
 import { ColumnDefinitionsDialog } from './components/columnsdefinition/columnsdefinition.component';
 import { ColumnDefinitionsDialogB } from './components/columnsdefinitionB/columnsdefinitionB.component';
+import { ColumnDefinitionsDialogOutput } from './components/columnsdefinitionoutput/columnsdefinitionoutput.component';
+import { ExecutionCreateComponent } from './components/executioncreate/executioncreate.component';
 
 
 
@@ -31,7 +33,9 @@ import { ColumnDefinitionsDialogB } from './components/columnsdefinitionB/column
     NewfilesComponent,
     FilesCreateComponent,
     ColumnDefinitionsDialog,
-    ColumnDefinitionsDialogB
+    ColumnDefinitionsDialogB,
+    ColumnDefinitionsDialogOutput,
+    ExecutionCreateComponent
   ],
   imports: [
     CommonModule,

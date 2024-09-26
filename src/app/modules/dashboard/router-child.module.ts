@@ -4,13 +4,15 @@ import { HomeComponent } from './components/home/home.component';
 import { CategoryComponent } from '../category/components/category/category.component';
 import { CombinacionComponent } from '../category/components/combinacion/combinacion.component';
 import { FilesCreateComponent } from '../category/components/filescreate/filescreate.component';
+import { ExecutionCreateComponent } from '../category/components/executioncreate/executioncreate.component';
 
 const childRoutes: Routes = [
     { path: '', component: HomeComponent },
     { path: 'home', component: HomeComponent },
     { path: 'category', component: CategoryComponent },
     { path: 'comparacion', component: CombinacionComponent },
-    { path: 'filescreate', component: FilesCreateComponent}
+    { path: 'filescreate', component: FilesCreateComponent},
+    { path: 'executioncreate', component: ExecutionCreateComponent}
 ]
 
 @NgModule({

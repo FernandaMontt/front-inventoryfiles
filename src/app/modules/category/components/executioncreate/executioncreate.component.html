@@ -1,0 +1,156 @@
+<mat-card style="background: #ffffff; color: black;">
+  <h1 style="color: rgb(0, 55, 111); margin-left: 2%; margin-top: 2%;" class="alinear"><strong>Ejecución</strong></h1>
+
+  <!-- Contenedor general con borde -->
+  <div style="border: 2px solid #0b3d91; padding: 24px; border-radius: 8px;">
+    <!-- Sección con borde alrededor del formulario -->
+    <div style="border: 1px solid #ccc; padding: 16px; border-radius: 4px; background-color: rgb(255, 255, 255);">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <mat-card-header fxFlex="20%">
+          <mat-card-title>Seleccione un Twin</mat-card-title>
+        </mat-card-header>
+        <mat-card-content fxFlex="80%">
+          <form [formGroup]="myGroupDefinition">
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+              <label class="custom-label">Twins Name</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Twinsname" formControlName="twinsname" required />
+              </mat-form-field>
+              <label class="custom-label">Id</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Id" formControlName="id" required />
+              </mat-form-field>
+              <button mat-raised-button style="background-color: blue;" (click)="onEditColumnsB()">
+                Find Twin
+            </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </div>
+    </div>
+
+    <div style="border: 1px solid #ccc; padding: 16px; border-radius: 4px; background-color: rgb(255, 255, 255);">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <mat-card-header fxFlex="20%">
+          <mat-card-title>Twin Selected</mat-card-title>
+        </mat-card-header>
+        <mat-card-content fxFlex="80%">
+          <form [formGroup]="myGroupSelected">
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+              <label class="custom-label">Twins Name</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Twinsname" formControlName="twinsname" required />
+              </mat-form-field>
+              <label class="custom-label">Created At</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Createdat" formControlName="createdat" required />
+              </mat-form-field>
+              <label class="custom-label">Version</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Version" formControlName="version" required />
+              </mat-form-field>
+            </div>
+      
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+              <label class="custom-label">Descripción</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Descripción" formControlName="description" required />
+              </mat-form-field>
+              <label class="custom-label">Created By</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Createdby" formControlName="createdby" required />
+              </mat-form-field>
+              <label class="custom-label">State</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="State" formControlName="state" required />
+              </mat-form-field>
+            </div>
+      
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+              <label class="custom-label">Id</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Id" formControlName="id" required />
+              </mat-form-field>
+              <label class="custom-label">Update At</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Updateat" formControlName="updateat" required />
+              </mat-form-field>
+              <button mat-raised-button style="background-color: blue;" (click)="onEditColumnsB()">
+                View Details
+              </button>
+              <button mat-raised-button style="background-color: blue;" (click)="onEditColumnsB()">
+                Test
+              </button>
+            </div>
+          </form>
+        </mat-card-content>
+      </div>
+    </div>
+
+    <div style="border: 1px solid #ccc; padding: 16px; border-radius: 4px; background-color: rgb(255, 255, 255);">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <mat-card-header fxFlex="20%">
+          <mat-card-title>Select File A</mat-card-title>
+        </mat-card-header>
+        <mat-card-content fxFlex="80%">
+          <form [formGroup]="mysAGroup">
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+              <label class="custom-label" style="color: black;">Path</label>
+              <input type="file" (change)="onFileSelected($event)" />
+            </div>
+      
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+              <label class="custom-label">Total Row Count</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Totalrowcount" formControlName="totalrowcount" required />
+              </mat-form-field>
+              <label class="custom-label">Rows OK</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Rowsok" formControlName="rowsok" required />
+              </mat-form-field>
+              <label class="custom-label">Verification State</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Verificationstate" formControlName="verificationstate" required />
+              </mat-form-field>
+            </div>
+          </form>
+        </mat-card-content>
+      </div>
+    </div>
+
+    <div style="border: 1px solid #ccc; padding: 16px; border-radius: 4px; background-color: rgb(255, 255, 255);">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <mat-card-header fxFlex="20%">
+          <mat-card-title>Select File B</mat-card-title>
+        </mat-card-header>
+        <mat-card-content fxFlex="80%">
+          <form [formGroup]="mysBGroup">
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+              <label class="custom-label" style="color: black;">Path</label>
+              <input type="file" (change)="onFileSelectedB($event)" />
+            </div>
+      
+            <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayout.lt-md="column" fxLayoutGap.lt-md="8px" class="form-row">
+              <label class="custom-label">Total Row Count</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Totalrowcount" formControlName="totalrowcount" required />
+              </mat-form-field>
+              <label class="custom-label">Rows OK</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Rowsok" formControlName="rowsok" required />
+              </mat-form-field>
+              <label class="custom-label">Verification State</label>
+              <mat-form-field fxFlex="25">
+                <input matInput placeholder="Verificationstate" formControlName="verificationstate" required />
+              </mat-form-field>
+            </div>
+          </form>
+        </mat-card-content>
+      </div>
+    </div>
+
+    <mat-card-actions style="justify-content: flex-end;">
+      <button mat-button style="background-color: #430cd7; color: white; border-radius: 5px; margin-right: 10px;">Ejecutar Definición</button>
+    </mat-card-actions>
+  </div>
+</mat-card>

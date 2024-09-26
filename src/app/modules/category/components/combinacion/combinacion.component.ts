@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
@@ -7,6 +7,7 @@ import { ConfirmComponent } from 'src/app/modules/shared/components/confirm/conf
 import { CategoryService } from 'src/app/modules/shared/services/category.service';
 import { NewCategoryComponent } from '../new-category/new-category.component';
 import { DetailExecuteComponent } from 'src/app/modules/shared/components/detailsexecute/detailsexecute.component';
+import { MatSort, Sort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-combinacion',
@@ -14,20 +15,22 @@ import { DetailExecuteComponent } from 'src/app/modules/shared/components/detail
   styleUrls: ['./combinacion.component.css']
 })
 export class CombinacionComponent implements OnInit{
-
   constructor(private categoryService: CategoryService,
               public dialog: MatDialog, private snackBar: MatSnackBar){ }
 
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  displayedColumns: string[] = ['id_comparacion','archivoNombreAarchivoNombreB','id_ArchivoA','version','creador','fecha_inicio'
+    ,'estadoArchivoB','porcentajeIgualAB','porcentajeAnotB','porcentajeBnotA', 'actions'];
+  dataSource = new MatTableDataSource<CombinancionElement>();
   ngOnInit(): void {
     this.getComparacion();
   }
 
-  displayedColumns: string[] = ['id_comparacion','archivoNombreAarchivoNombreB','version','id_ArchivoA','fecha_inicio',
-    'creador','estadoArchivoB','porcentajeIgualAB','porcentajeAnotB','porcentajeBnotA', 'actions'];
-  dataSource = new MatTableDataSource<CombinancionElement>();
-
-  @ViewChild(MatPaginator)
-  paginator!: MatPaginator;
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
 
   getComparacion(){
 
@@ -49,8 +52,113 @@ export class CombinacionComponent implements OnInit{
         dataCategory.push(element);
       });
       this.dataSource = new MatTableDataSource<CombinancionElement>(dataCategory);
+      this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
   }
+
+  announceSortChange(event: Sort) {
+    console.log(event);
+  }
+  
+
+  doSomething($event: any) {
+    $event.stopPropagation();
+  }
+
+  
+
+  filtrarId(event: Event) {
+    const filtro = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filterPredicate = (data, filter) => {
+      const id = data.id_comparacion.toString().toLowerCase();
+      return id.includes(filter);
+    };
+    this.dataSource.filter = filtro;
+  }
+
+  filtrarIdArchivo(event: Event) {
+    const filtro = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filterPredicate = (data, filter) => {
+      const id = data.id_ArchivoA.toString().toLowerCase();
+      return id.includes(filter);
+    };
+    this.dataSource.filter = filtro;
+  }
+
+  filtrarNombreEjecution(event: Event) {
+    const filtro = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filterPredicate = (data, filter) => {
+      const id = data.archivoNombreAarchivoNombreB.toString().toLowerCase();
+      return id.includes(filter);
+    };
+    this.dataSource.filter = filtro;
+  }
+
+  filtrarVersion(event: Event) {
+    const filtro = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filterPredicate = (data, filter) => {
+      const id = data.version.toString().toLowerCase();
+      return id.includes(filter);
+    };
+    this.dataSource.filter = filtro;
+  }
+
+  filtrarCreado(event: Event) {
+    const filtro = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filterPredicate = (data, filter) => {
+      const id = data.creador.toString().toLowerCase();
+      return id.includes(filter);
+    };
+    this.dataSource.filter = filtro;
+  }
+
+  filtrarFechaInicio(event: Event) {
+    const filtro = (event.target as HTMLInputElement).value.trim();
+    this.dataSource.filterPredicate = (data, filter) => {
+      const fechaInicio = new Date(data.fecha_inicio);
+      const filtroFecha = new Date(filter);
+      return !isNaN(fechaInicio.getTime()) && fechaInicio >= filtroFecha;
+    };
+    this.dataSource.filter = filtro;
+  }
+
+  filtrarEstado(event: Event) {
+    const filtro = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filterPredicate = (data, filter) => {
+      const id = data.estadoArchivoB.toString().toLowerCase();
+      return id.includes(filter);
+    };
+    this.dataSource.filter = filtro;
+  }
+
+  filtrarporcentajeIgualAB(event: Event) {
+    const filtro = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filterPredicate = (data, filter) => {
+      const id = data.porcentajeIgualAB.toString().toLowerCase();
+      return id.includes(filter);
+    };
+    this.dataSource.filter = filtro;
+  }
+
+  filtrarporcentajeAnotB(event: Event) {
+    const filtro = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filterPredicate = (data, filter) => {
+      const id = data.porcentajeAnotB.toString().toLowerCase();
+      return id.includes(filter);
+    };
+    this.dataSource.filter = filtro;
+  }
+
+  filtrarporcentajeBnotA(event: Event) {
+    const filtro = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.dataSource.filterPredicate = (data, filter) => {
+      const id = data.porcentajeBnotA.toString().toLowerCase();
+      return id.includes(filter);
+    };
+    this.dataSource.filter = filtro;
+  }
+
+  
 
   openCategoryDialog(){
     const dialogRef = this.dialog.open(NewCategoryComponent, {
@@ -133,9 +241,6 @@ export class CombinacionComponent implements OnInit{
     });
 
   }
-
-
-
 }
 
 export interface CombinancionElement{
