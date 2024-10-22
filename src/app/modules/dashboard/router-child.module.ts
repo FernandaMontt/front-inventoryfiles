@@ -12,7 +12,10 @@ const childRoutes: Routes = [
     { path: 'category', component: CategoryComponent },
     { path: 'comparacion', component: CombinacionComponent },
     { path: 'filescreate', component: FilesCreateComponent},
-    { path: 'executioncreate', component: ExecutionCreateComponent}
+    { path: 'executioncreate', component: ExecutionCreateComponent},
+    { path: 'filescreate/:id/:mode', component: FilesCreateComponent },
+    { path: 'executioncreate/:id/:mode', component: ExecutionCreateComponent},
+    { path: 'filescreate/:id/:name/:descripcion/:creador/:fecha_actualizacion/:version/:mode', component: FilesCreateComponent }
 ]
 
 @NgModule({

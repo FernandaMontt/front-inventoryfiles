@@ -10,6 +10,7 @@ import { CategoryService } from 'src/app/modules/shared/services/category.servic
 })
 export class ColumnDefinitionsDialogOutput implements OnInit{
   displayedColumns!: string[];
+  optionTitles: string[] = ['A = B', 'A not B', 'B not A'];
   constructor(
     public dialogRef: MatDialogRef<ColumnDefinitionsDialogOutput>,
     @Inject(MAT_DIALOG_DATA) public data: any

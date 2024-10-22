@@ -1,9 +1,98 @@
 <mat-card style="background: #ffffff; color: black;">
-
+  <div style="border: 1px solid #ccc; padding: 20px; border-radius: 10px;">
     <h1 style="color: rgb(0, 55, 111); margin-left: 2%; margin-top: 2%;" class="alinear"><strong>Definiciones</strong></h1>
     
 
     <div mat-card-image></div>
+
+    <div style="border: 1px solid #ccc; padding: 20px; border-radius: 10px;">
+      <form [formGroup]="filterForm" (ngSubmit)="applyFilters()">
+        <div fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="start center">
+          
+           <!-- Campo de Id (numérico) -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Id</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput type="number" formControlName="id_Archivo" placeholder="Buscar por Id">
+            </mat-form-field>
+          </div>
+
+          <!-- Campo de Nombre -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Nombre</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput formControlName="nombreArchivo" placeholder="Buscar por nombre">
+            </mat-form-field>
+          </div>
+
+          <!-- Campo de Descripción -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Descripción</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput formControlName="descripcionArchivo" placeholder="Buscar por descripción">
+            </mat-form-field>
+          </div>
+
+          <!-- Campo de Fecha de Creación (date) -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Fecha Creación</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput [matDatepicker]="pickerCreacion" formControlName="creador" placeholder="Seleccionar fecha">
+              <mat-datepicker-toggle matSuffix [for]="pickerCreacion"></mat-datepicker-toggle>
+              <mat-datepicker #pickerCreacion></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <!-- Campo de Owner -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Owner</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput formControlName="owner" placeholder="Buscar por Owner">
+            </mat-form-field>
+          </div>
+
+          <!-- Campo de Fecha Modificación (date) -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Fecha Modificación</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput [matDatepicker]="pickerModificacion" formControlName="fechamodificado" placeholder="Seleccionar fecha">
+              <mat-datepicker-toggle matSuffix [for]="pickerModificacion"></mat-datepicker-toggle>
+              <mat-datepicker #pickerModificacion></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <!-- Campo de Modificado por -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Modificado por</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput formControlName="modificadopor" placeholder="Buscar por Modificado por">
+            </mat-form-field>
+          </div>
+
+          <!-- Campo de Versión (numérico) -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Versión</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput type="number" formControlName="version" placeholder="Buscar por versión">
+            </mat-form-field>
+          </div>
+
+          <!-- Campo de Estado -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Estado</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput formControlName="estado" placeholder="Buscar por estado">
+            </mat-form-field>
+          </div>
+          
+          <!-- Botón para aplicar los filtros -->
+          <div fxFlex="100%" fxLayoutAlign="end" style="margin-top: 10px;">
+            <button mat-raised-button style="background-color: #430cd7; color: white; border-radius: 5px; margin-right: 10px;" type="submit">Filtrar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    
+    <div style="border: 1px solid #ccc; padding: 20px; border-radius: 10px;">
     <mat-card-content style="background: #ffffff; color: black;">
         <div>
         <mat-table [dataSource]="dataSource"  class="example-container mat-elevation-z8 mat-cell" matSort style="max-height: 400px; overflow-y: auto;">
@@ -176,29 +265,29 @@
             </ng-container>
 
           
-            <ng-container matColumnDef="actions">
-                <mat-header-cell *matHeaderCellDef style="background-color: #003366; color: white; text-align: left;"> Acción </mat-header-cell>
-                <mat-cell *matCellDef="let element; let i=index;" style="background-color: #bbb8b8; color: black; border-bottom: 1px solid #dddddd;">
-                    <button mat-icon-button style="background-color: #f5f5f5; border: 1px solid #f5f5f5;" (click)="detail(element.id_Archivo)">
-                        <mat-icon aria-label="Detail">manage_search</mat-icon>
-                    </button>
-                    <button mat-icon-button style="background-color: #f5f5f5; border: 1px solid #f5f5f5;" (click)="edit(element.id_Archivo, element.nombreArchivo, element.descripcionArchivo, element.creador, element.fecha_actualizacion, element.version)">
-                        <mat-icon aria-label="Edit">edit</mat-icon>
-                    </button>
-                    <button mat-icon-button style="background-color: #f5f5f5; border: 1px solid #f5f5f5;" (click)="delete(element.id_Archivo)">
-                        <mat-icon aria-label="Delete">delete</mat-icon>
-                    </button>
-                    <button mat-icon-button style="background-color: #f5f5f5; border: 1px solid #f5f5f5;" (click)="execute(element.id_Archivo)">
-                        <mat-icon label="Execute">swipe_left</mat-icon>
-                    </button>
-                    <button mat-icon-button style="background-color: #f5f5f5; border: 1px solid #f5f5f5;" (click)="test(element.id_Archivo)">
-                        <mat-icon label="Test">inventory</mat-icon>
-                    </button>
-                    <button mat-icon-button style="background-color: #f5f5f5; border: 1px solid #f5f5f5;" (click)="test(element.id_Archivo)">
-                        <mat-icon label="Share">share</mat-icon>
-                    </button>
-                </mat-cell>
-            </ng-container>
+              <ng-container matColumnDef="actions">
+                  <mat-header-cell *matHeaderCellDef style="background-color: #003366; color: white; text-align: left;"> Acción </mat-header-cell>
+                  <mat-cell *matCellDef="let element; let i=index;" style="background-color: #bbb8b8; color: black; border-bottom: 1px solid #dddddd;">
+                      <button mat-icon-button style="background-color: #f5f5f5; border: 1px solid #f5f5f5;" (click)="detail(element.id_Archivo)">
+                          <mat-icon aria-label="Detail">manage_search</mat-icon>
+                      </button>
+                      <button mat-icon-button style="background-color: #f5f5f5; border: 1px solid #f5f5f5;" (click)="edit(element.id_Archivo, element.nombreArchivo, element.descripcionArchivo, element.creador, element.fecha_actualizacion, element.version)">
+                          <mat-icon aria-label="Edit">edit</mat-icon>
+                      </button>
+                      <button mat-icon-button style="background-color: #f5f5f5; border: 1px solid #f5f5f5;" (click)="delete(element.id_Archivo)">
+                          <mat-icon aria-label="Delete">delete</mat-icon>
+                      </button>
+                      <button mat-icon-button style="background-color: #f5f5f5; border: 1px solid #f5f5f5;" (click)="execute(element.id_Archivo)">
+                          <mat-icon label="Execute">swipe_left</mat-icon>
+                      </button>
+                      <button mat-icon-button style="background-color: #f5f5f5; border: 1px solid #f5f5f5;" (click)="test(element.id_Archivo)">
+                          <mat-icon label="Test">inventory</mat-icon>
+                      </button>
+                      <button mat-icon-button style="background-color: #f5f5f5; border: 1px solid #f5f5f5;" (click)="share(element.id_Archivo)">
+                          <mat-icon label="Share">share</mat-icon>
+                      </button>
+                  </mat-cell>
+              </ng-container>
             <!-- Encabezado de la tabla -->
             <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
           
@@ -210,6 +299,7 @@
           <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons class="custom-paginator"></mat-paginator>
 
     </mat-card-content>
+  
     <mat-card-header class="right-header">
         <div fxFlex fxLayout="row" fxLayoutAlign="flex-end" class="icon-container">
           <div class="icon-grid">
@@ -234,5 +324,6 @@
           </div>
         </div>
       </mat-card-header>
-
+    </div>
+  </div>
 </mat-card>

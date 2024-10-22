@@ -8,6 +8,8 @@ import { CategoryService } from 'src/app/modules/shared/services/category.servic
 import { NewCategoryComponent } from '../new-category/new-category.component';
 import { DetailExecuteComponent } from 'src/app/modules/shared/components/detailsexecute/detailsexecute.component';
 import { MatSort, Sort } from '@angular/material/sort';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-combinacion',
@@ -15,8 +17,22 @@ import { MatSort, Sort } from '@angular/material/sort';
   styleUrls: ['./combinacion.component.css']
 })
 export class CombinacionComponent implements OnInit{
+  filterCombinantion : FormGroup;
   constructor(private categoryService: CategoryService,
-              public dialog: MatDialog, private snackBar: MatSnackBar){ }
+              public dialog: MatDialog, private snackBar: MatSnackBar, private fb: FormBuilder,private router: Router){ 
+                this.filterCombinantion = this.fb.group({
+                  id_comparacion: [''],
+                  archivoNombreAarchivoNombreB: [''],
+                  id_ArchivoA: [''],
+                  version: [''],
+                  creador: [''],
+                  fecha_inicio: [null], 
+                  estadoArchivoB: [''],
+                  porcentajeIgualAB: [''],
+                  porcentajeAnotB: [''],
+                  porcentajeBnotA: ['']
+                });
+              }
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -226,19 +242,11 @@ export class CombinacionComponent implements OnInit{
     })
   }
 
-  detail(id:number){
-    const dialogRef = this.dialog.open(DetailExecuteComponent, {
-      data:{id: id}
-    });
+  detail(id:number){ 
+    this.router.navigate(['/executioncreate', id, 'details']);
+  }
 
-    dialogRef.afterClosed().subscribe((result:any) => {
-      if(result==1){
-        this.getComparacion();
-      }else if(result==2){
-        this.openSnackBar("Se produjo un error al ver la combinación", "Error");
-      }
-      
-    });
+  applyFilters(){
 
   }
 }

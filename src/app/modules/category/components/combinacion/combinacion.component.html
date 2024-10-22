@@ -6,6 +6,100 @@
 
     <div mat-card-image></div>
 
+    <div style="border: 1px solid #ccc; padding: 20px; border-radius: 10px;">
+      <form [formGroup]="filterCombinantion" (ngSubmit)="applyFilters()">
+        <div fxLayout="row wrap" fxLayoutGap="10px" fxLayoutAlign="start center">
+          
+          <!-- Campo de Id Comparación (numérico) -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Id Comparación</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput type="number" formControlName="id_comparacion" placeholder="Buscar por Id Comparación">
+            </mat-form-field>
+          </div>
+    
+          <!-- Campo de Id Archivo (numérico) -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Id Archivo</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput type="number" formControlName="id_ArchivoA" placeholder="Buscar por Id Archivo">
+            </mat-form-field>
+          </div>
+    
+          <!-- Campo de Nombre -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Nombre</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput formControlName="archivoNombreAarchivoNombreB" placeholder="Buscar por nombre">
+            </mat-form-field>
+          </div>
+    
+          <!-- Campo de Creador -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Creador</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput formControlName="creador" placeholder="Buscar por Creador">
+            </mat-form-field>
+          </div>
+    
+          <!-- Campo de Fecha de Inicio -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Fecha Inicio</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput [matDatepicker]="pickerInicio" formControlName="fecha_inicio" placeholder="Seleccionar fecha">
+              <mat-datepicker-toggle matSuffix [for]="pickerInicio"></mat-datepicker-toggle>
+              <mat-datepicker #pickerInicio></mat-datepicker>
+            </mat-form-field>
+          </div>
+    
+          <!-- Campo de Versión (numérico) -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Versión</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput type="number" formControlName="version" placeholder="Buscar por versión">
+            </mat-form-field>
+          </div>
+    
+          <!-- Campo de Estado -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Estado</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput formControlName="estadoArchivoB" placeholder="Buscar por estado">
+            </mat-form-field>
+          </div>
+    
+          <!-- Campo de Porcentaje Igual AB -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Porcentaje Igual AB</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput type="number" formControlName="porcentajeIgualAB" placeholder="Porcentaje Igual AB">
+            </mat-form-field>
+          </div>
+    
+          <!-- Campo de Porcentaje Anot B -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Porcentaje A not B</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput type="number" formControlName="porcentajeAnotB" placeholder="Porcentaje Anot B">
+            </mat-form-field>
+          </div>
+    
+          <!-- Campo de Porcentaje B not A -->
+          <div fxLayout="column" fxFlex="30%">
+            <label>Porcentaje B not A</label>
+            <mat-form-field style="width: 100%;">
+              <input matInput type="number" formControlName="porcentajeBnotA" placeholder="Porcentaje B not A">
+            </mat-form-field>
+          </div>
+    
+          <!-- Botón para aplicar los filtros -->
+          <div fxFlex="100%" fxLayoutAlign="end" style="margin-top: 10px;">
+            <button mat-raised-button style="background-color: #430cd7; color: white; border-radius: 5px; margin-right: 10px;" type="submit">Filtrar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div style="border: 1px solid #ccc; padding: 20px; border-radius: 10px;">
     <mat-card-content style="background: #ffffff; color: black;">
         <div>
             <mat-table [dataSource]="dataSource" class="example-container mat-elevation-z8 mat-cell" matSort (matSortChange)="announceSortChange($event)" style="max-height: 400px; overflow-y: auto;">
@@ -195,10 +289,10 @@
                 <ng-container matColumnDef="actions">
                     <mat-header-cell *matHeaderCellDef style="background-color: #003366; color: white; text-align: left;"> Acción </mat-header-cell>
                     <mat-cell *matCellDef="let element; let i=index;" style="background-color: #bbb8b8; color: black; border-bottom: 1px solid #dddddd;">
-                        <button mat-icon-button style="background-color: #f5f5f5; border: 1px solid #f5f5f5;" (click)="detail(element.id_Archivo)">
+                        <button mat-icon-button style="background-color: #f5f5f5; border: 1px solid #f5f5f5;" (click)="detail(element.id_comparacion)">
                             <mat-icon aria-label="Detail">manage_search</mat-icon>
                         </button>
-                        <button mat-icon-button style="background-color: #f5f5f5; border: 1px solid #f5f5f5;" (click)="delete(element.id_Archivo)">
+                        <button mat-icon-button style="background-color: #f5f5f5; border: 1px solid #f5f5f5;" (click)="delete(element.id_comparacion)">
                             <mat-icon aria-label="Delete">delete</mat-icon>
                         </button>
                     </mat-cell>
@@ -227,5 +321,5 @@
           </div>
         </div>
       </mat-card-header>
-
+    </div>
 </mat-card>

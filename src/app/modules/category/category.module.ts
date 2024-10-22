@@ -21,6 +21,11 @@ import { ColumnDefinitionsDialog } from './components/columnsdefinition/columnsd
 import { ColumnDefinitionsDialogB } from './components/columnsdefinitionB/columnsdefinitionB.component';
 import { ColumnDefinitionsDialogOutput } from './components/columnsdefinitionoutput/columnsdefinitionoutput.component';
 import { ExecutionCreateComponent } from './components/executioncreate/executioncreate.component';
+import { CrossoverDefinitionModalComponent } from './components/crossoverdefinition/crossoverdefinition.component';
+import { RouterChildModule } from '../dashboard/router-child.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { ModalCompartirDefinicionDialog } from './components/modalcompartirdefinicion/modalcompartirdefinicion.component';
 
 
 
@@ -35,7 +40,9 @@ import { ExecutionCreateComponent } from './components/executioncreate/execution
     ColumnDefinitionsDialog,
     ColumnDefinitionsDialogB,
     ColumnDefinitionsDialogOutput,
-    ExecutionCreateComponent
+    ExecutionCreateComponent,
+    CrossoverDefinitionModalComponent,
+    ModalCompartirDefinicionDialog
   ],
   imports: [
     CommonModule,
@@ -51,7 +58,11 @@ import { ExecutionCreateComponent } from './components/executioncreate/execution
     MatDialogModule,
     MatPaginatorModule,
     MatTableModule,
-    MatCardModule
+    MatCardModule,
+    RouterChildModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ReactiveFormsModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

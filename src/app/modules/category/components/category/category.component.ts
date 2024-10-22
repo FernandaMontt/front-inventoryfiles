@@ -11,6 +11,9 @@ import { ExecutefileComponent } from 'src/app/modules/shared/components/executef
 import { TestfilesComponent } from 'src/app/modules/shared/components/testfiles/testfiles.component';
 import { NewfilesComponent } from '../newfiles/newfiles.component';
 import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { ModalCompartirDefinicionDialog } from '../modalcompartirdefinicion/modalcompartirdefinicion.component';
 
 @Component({
   selector: 'app-category',
@@ -18,11 +21,28 @@ import { MatSort } from '@angular/material/sort';
   styleUrls: ['./category.component.css']
 })
 export class CategoryComponent implements OnInit{
-
-  constructor(private categoryService: CategoryService,
-              public dialog: MatDialog, private snackBar: MatSnackBar){ }
+  filterForm: FormGroup;
+  constructor(private categoryService: CategoryService,private fb: FormBuilder,private router: Router,
+              public dialog: MatDialog, private snackBar: MatSnackBar){
+                this.filterForm = this.fb.group({
+                id_Archivo: [''],
+                nombreArchivo: [''],
+                descripcionArchivo: [''],
+                creador: [null],
+                owner: [''],
+                fechamodificado: [null], 
+                modificadopor: [''],
+                version: [''],
+                estado: ['']
+              }); }
   displayedColumns: string[] = ['id_Archivo','nombreArchivo','descripcionArchivo','fecha_creacion','owner','fecha_actualizacion','creador'
     ,'version','estado','actions'];
+  users: User[] = [
+      { id: 1, name: 'Fernanda M...', canRead: true, canExecute: true, canWrite: false },
+      { id: 2, name: 'Felipe B...', canRead: true, canExecute: true, canWrite: true },
+      { id: 3, name: 'Nicolas O...', canRead: true, canExecute: true, canWrite: true },
+      { id: 4, name: 'Francisco G...', canRead: true, canExecute: false, canWrite: false },
+    ];
   dataSource = new MatTableDataSource<CategoryElement>();
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -31,11 +51,41 @@ export class CategoryComponent implements OnInit{
   }
 
   ngAfterViewInit() {
+    this.dataSource.filterPredicate = (data: any, filter: string) => {
+        const filterValues = JSON.parse(filter);
+        
+        const matchId = !filterValues.id_Archivo || data.id_Archivo.toString().toLowerCase().includes(filterValues.id_Archivo.toLowerCase());
+        const matchNombre = !filterValues.nombreArchivo || data.nombreArchivo.toLowerCase().includes(filterValues.nombreArchivo.toLowerCase());
+        const matchDescripcion = !filterValues.descripcionArchivo || data.descripcionArchivo.toLowerCase().includes(filterValues.descripcionArchivo.toLowerCase());
+        const matchCreador = !filterValues.creador || data.creador.toLowerCase().includes(filterValues.creador.toLowerCase());
+        const matchOwner = !filterValues.owner || data.owner.toLowerCase().includes(filterValues.owner.toLowerCase());
+        const matchFechaModificado = !filterValues.fechamodificado || new Date(data.fecha_actualizacion).toISOString().split('T')[0] === filterValues.fechamodificado;
+        const matchModificadoPor = !filterValues.modificadopor || data.modificadopor.toLowerCase().includes(filterValues.modificadopor.toLowerCase());
+        const matchVersion = !filterValues.version || data.version.toLowerCase().includes(filterValues.version.toLowerCase());
+        const matchEstado = !filterValues.estado || data.estado.toLowerCase().includes(filterValues.estado.toLowerCase());
+    
+        return matchId && matchNombre && matchDescripcion && matchCreador && matchOwner && matchFechaModificado && matchModificadoPor && matchVersion && matchEstado;
+    };
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-  }
+}
 
-  
+  applyFilters() {
+    const filterValues = this.filterForm.value;
+
+    // Filtra los datos en la tabla basados en los valores del formulario
+    this.dataSource.filter = JSON.stringify({
+        id_Archivo: filterValues.id_Archivo,
+        nombreArchivo: filterValues.nombreArchivo,
+        descripcionArchivo: filterValues.descripcionArchivo,
+        creador: filterValues.creador,
+        owner: filterValues.owner,
+        fechamodificado: filterValues.fechamodificado,
+        modificadopor: filterValues.modificadopor,
+        version: filterValues.version,
+        estado: filterValues.estado
+    });
+}
 
   getCategories(){
 
@@ -78,35 +128,11 @@ export class CategoryComponent implements OnInit{
   }
 
   edit(id:number, name: string, descripcion: string, creador: string, fecha_actualizacion: Date, version: number ){
-    const dialogRef = this.dialog.open(NewCategoryComponent, {
-      width:'700px',
-      data:{id: id, name: name, descripcion: descripcion, creador, fecha_actualizacion, version}
-    });
-
-    dialogRef.afterClosed().subscribe((result:any) => {
-      
-      if(result==1){
-        this.openSnackBar("Archivo Actualizado","Exito");
-        this.getCategories();
-      }else if(result==2){
-        this.openSnackBar("Se produjo un error al actualizar el archivo", "Error");
-      }
-    });
+    this.router.navigate(['/filescreate', id, name, descripcion, creador, fecha_actualizacion, version, 'edit']);
   }
 
   detail(id:number){
-    const dialogRef = this.dialog.open(DetailFilesComponent, {
-      data:{id: id}
-    });
-
-    dialogRef.afterClosed().subscribe((result:any) => {
-      if(result==1){
-        this.getCategories();
-      }else if(result==2){
-        this.openSnackBar("Se produjo un error al ver el archivo", "Error");
-      }
-      
-    });
+    this.router.navigate(['/filescreate', id, 'details']);
 
   }
 
@@ -278,6 +304,21 @@ export class CategoryComponent implements OnInit{
     })
   }
 
+  share(id: any) {
+    // Abrir el modal
+    const dialogRef = this.dialog.open(ModalCompartirDefinicionDialog, {
+      width: '80%', // Ancho del modal
+      data: {
+        users: this.users,
+      }
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      // Aquí puedes manejar la lógica después de que se cierra el modal
+      console.log('El modal se cerró');
+    });
+  }
+
 
 
 }
@@ -292,4 +333,12 @@ export interface CategoryElement{
   version: string;
   estado: string;
   owner: string;
+}
+
+export interface User {
+  id: number;
+  name: string;
+  canRead: boolean;
+  canExecute: boolean;
+  canWrite: boolean;
 }

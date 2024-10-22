@@ -15,6 +15,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ColumnDefinitionsDialog } from '../columnsdefinition/columnsdefinition.component';
 import { ColumnDefinitionsDialogB } from '../columnsdefinitionB/columnsdefinitionB.component';
 import { ColumnDefinitionsDialogOutput } from '../columnsdefinitionoutput/columnsdefinitionoutput.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-executioncreate',
@@ -26,7 +27,10 @@ export class ExecutionCreateComponent implements OnInit{
   myGroupSelected: FormGroup;
   mysAGroup: FormGroup;
   mysBGroup: FormGroup;
-  constructor(private categoryService: CategoryService,private fb: FormBuilder,
+  id?: number;
+  mode?: string;
+  title: string = 'Crear una Ejecución'; 
+  constructor(private categoryService: CategoryService,private fb: FormBuilder,private route: ActivatedRoute,private router: Router,
               public dialog: MatDialog, private snackBar: MatSnackBar){ 
                 this.myGroupDefinition = new FormGroup({
                   twinsname: new FormControl(''),
@@ -83,6 +87,16 @@ export class ExecutionCreateComponent implements OnInit{
       totalrowcount: ['', Validators.required],
       rowsok: ['', Validators.required],
       verificationstate: ['', Validators.required],
+    });
+
+    this.route.params.subscribe(params => {
+      this.id = +params['id']; // Convierto el parámetro id a número
+      this.mode = params['mode'];
+      
+      if (this.mode === 'details') {
+        this.title = 'Detalles de una Ejecución';
+        // Aquí puedes cargar los detalles usando this.id
+      }
     });
 
   }
@@ -165,6 +179,12 @@ export class ExecutionCreateComponent implements OnInit{
   onGenerateTestFileB() {
     console.log('Generate test file clicked');
     // Aquí puedes agregar la lógica para generar un archivo de prueba
+  }
+
+  onClose() {
+    if (this.mode === 'details') {
+      this.router.navigate(['/dashboard/comparacion']);
+    }
   }
 
 

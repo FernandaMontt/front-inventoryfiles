@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { CategoryService } from 'src/app/modules/shared/services/category.service';
 
 @Component({
@@ -9,77 +10,22 @@ import { CategoryService } from 'src/app/modules/shared/services/category.servic
   styleUrls: ['./new-category.component.css']
 })
 export class NewCategoryComponent implements OnInit{
-
-  public categoryForm: FormGroup;
-  estadoFormulario: string = "";
   constructor(private fb: FormBuilder, private categoryService: CategoryService,
-              private dialogRef: MatDialogRef<NewCategoryComponent>, 
-              @Inject(MAT_DIALOG_DATA) public data: any){
-
-    console.log(data);
-    this.estadoFormulario = "Agregar";
-
-    this.categoryForm = this.fb.group({
-      name: ['', Validators.required],
-      descripcion: ['', Validators.required],
-      creador: ['', Validators.required],
-      fecha_actualizacion: ['', Validators.required],
-      version: ['', Validators.required]
-    });
-
-    if(data != null){
-      this.updateForm(data);
-      this.estadoFormulario = "Actualizar";
-    }
+              private dialogRef: MatDialogRef<NewCategoryComponent>,
+              private router: Router){
   }
 
   ngOnInit(): void {
       
   }
-
-  onSave(){
-
-    let data = {
-      name: this.categoryForm.get('name')?.value,
-      descripcion: this.categoryForm.get('descripcion')?.value,
-      creador: this.categoryForm.get('creador')?.value,
-      fecha_actualizacion: this.categoryForm.get('fecha_actualizacion')?.value,
-      version: this.categoryForm.get('version')?.value
-    }
-
-    if(this.data != null){
-      //update
-      this.categoryService.updateCategorie(data, this.data.id)
-        .subscribe((data:any) =>{
-          this.dialogRef.close(1);
-        }, (error:any) => {
-          this.dialogRef.close(2);
-        })
-    }else {
-      //create
-      this.categoryService.saveCategorie(data)
-        .subscribe((data:any) => {
-          console.log(data);
-          this.dialogRef.close(1);
-        }, (error:any) => {
-          this.dialogRef.close(2);
-        })
-
-    }
+  onCancel(): void {
+    this.dialogRef.close(false);
   }
 
-  onCancel(){
-    this.dialogRef.close(3);
+  onConfirm(): void {
+    this.dialogRef.close(true);
+    this.router.navigate(['/dashboard/category']);
   }
 
-  updateForm(data:any){
-    this.categoryForm = this.fb.group({
-      name: [data.name, Validators.required],
-      descripcion: [data.descripcion, Validators.required],
-      creador: [data.creador, Validators.required],
-      fecha_actualizacion: [data.fecha_actualizacion, Validators.required],
-      version: [data.version]
-    });
-  }
 
 }

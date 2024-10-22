@@ -15,6 +15,8 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ColumnDefinitionsDialog } from '../columnsdefinition/columnsdefinition.component';
 import { ColumnDefinitionsDialogB } from '../columnsdefinitionB/columnsdefinitionB.component';
 import { ColumnDefinitionsDialogOutput } from '../columnsdefinitionoutput/columnsdefinitionoutput.component';
+import { CrossoverDefinitionModalComponent } from '../crossoverdefinition/crossoverdefinition.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-filescreate',
@@ -22,6 +24,9 @@ import { ColumnDefinitionsDialogOutput } from '../columnsdefinitionoutput/column
   styleUrls: ['./filescreate.component.css']
 })
 export class FilesCreateComponent implements OnInit{
+  title: string = 'Crear Definición'; 
+  id?: number;
+  mode?: string;
   myGroup: FormGroup;
   mysGroup: FormGroup;
   mysBGroup: FormGroup;
@@ -61,7 +66,8 @@ export class FilesCreateComponent implements OnInit{
     { columnName: 'Column 5', columnType: 'bit', columnUnique: 'False' },
     { columnName: 'Column 6', columnType: 'varchar', columnUnique: 'True' }
   ]);
-  constructor(private categoryService: CategoryService,private fb: FormBuilder,
+  constructor(private categoryService: CategoryService,private fb: FormBuilder,private route: ActivatedRoute,
+    private router: Router,
               public dialog: MatDialog, private snackBar: MatSnackBar){ 
                 this.myGroup = new FormGroup({
                   twinsname: new FormControl(''),
@@ -100,12 +106,27 @@ export class FilesCreateComponent implements OnInit{
                   AnotB: [false], // Control para el checkbox "A not B"
                   BnotA: [false],
                   fileType: [''],
-                  fileEncoding: ['']
+                  fileEncoding: [''],
+                  conservarFormatoAyB: [false],
+                  conservarFormatoA: [false],
+                  conservarFormatoB: [false]
                 });
               }
   ngOnInit(): void {
 
-    
+    this.route.params.subscribe(params => {
+      this.id = +params['id']; // Convierto el parámetro id a número
+      this.mode = params['mode'];
+      
+      if (this.mode === 'details') {
+        this.title = 'Detalles de la Definición';
+        // Aquí puedes cargar los detalles usando this.id
+      }
+      if (this.mode === 'edit') {
+        this.title = 'Modificar la Definición';
+        // Aquí puedes cargar los detalles usando this.id
+      }
+    });
 
   }
 
@@ -188,18 +209,80 @@ export class FilesCreateComponent implements OnInit{
   }
 
   onEditColumnsOutput(): void {
-    const dialogRef = this.dialog.open(ColumnDefinitionsDialogOutput, {
+    const selectedOptions = {
+      A_B: this.mysOutputGroup.value.A_B,
+      AnotB: this.mysOutputGroup.value.AnotB,
+      BnotA: this.mysOutputGroup.value.BnotA,
+    };
+  
+    const dataSourceArray = [];
+  
+    if (selectedOptions.A_B) {
+      dataSourceArray.push({
+        dataSource: this.getDataSourceForAB(), // Reemplaza con tu lógica para obtener el dataSource
+        displayedColumns: ['columnName', 'columnType', 'columnUnique'],
+      });
+    }
+    if (selectedOptions.AnotB) {
+      dataSourceArray.push({
+        dataSource: this.getDataSourceForAnotB(), // Reemplaza con tu lógica para obtener el dataSource
+        displayedColumns: ['columnName', 'columnType', 'columnUnique'],
+      });
+    }
+    if (selectedOptions.BnotA) {
+      dataSourceArray.push({
+        dataSource: this.getDataSourceForBnotA(), // Reemplaza con tu lógica para obtener el dataSource
+        displayedColumns: ['columnName', 'columnType', 'columnUnique'],
+      });
+    }
+  
+    // Verificar si no se seleccionó ninguna opción
+  if (dataSourceArray.length === 0) {
+    this.dialog.open(ColumnDefinitionsDialogOutput, {
       panelClass: 'custom-dialog-container',
-      width: '80%',  // Puedes ajustar el tamaño del modal
+      width: '80%',
       data: {
-        dataSource: this.dataSourceColumnasOutput,
-        displayedColumns: this.displayedColumnsOutput,
+        message: 'Seleccione una de las opciones: A = B, A not B o B not A.',
       }
     });
-  
-    dialogRef.afterClosed().subscribe(result => {
-      // Maneja lo que suceda después de cerrar el modal
-    });
+    return; // Salir del método si no hay opciones seleccionadas
+  }
+
+  const dialogRef = this.dialog.open(ColumnDefinitionsDialogOutput, {
+    panelClass: 'custom-dialog-container',
+    width: '80%',
+    data: {
+      dataSourceArray: dataSourceArray,
+    }
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    // Maneja lo que suceda después de cerrar el modal
+  });
+  }
+
+  // Ejemplo de función para obtener el dataSource para A = B
+  getDataSourceForAB() {
+    return [
+      { columnName: 'Nombre A', columnType: 'Tipo A', columnUnique: true },
+      // Añade más datos según tu lógica
+    ];
+  }
+
+  // Ejemplo de función para obtener el dataSource para A not B
+  getDataSourceForAnotB() {
+    return [
+      { columnName: 'Nombre A not B', columnType: 'Tipo A not B', columnUnique: false },
+      // Añade más datos según tu lógica
+    ];
+  }
+
+  // Ejemplo de función para obtener el dataSource para B not A
+  getDataSourceForBnotA() {
+    return [
+      { columnName: 'Nombre B not A', columnType: 'Tipo B not A', columnUnique: true },
+      // Añade más datos según tu lógica
+    ];
   }
 
   // Método para verificar la definición
@@ -212,6 +295,38 @@ export class FilesCreateComponent implements OnInit{
   onGenerateTestFileB() {
     console.log('Generate test file clicked');
     // Aquí puedes agregar la lógica para generar un archivo de prueba
+  }
+
+  openCrossoverModal(): void {
+    const dialogRef = this.dialog.open(CrossoverDefinitionModalComponent, {
+      width: '50%',
+      data: {}  // Puedes pasar datos adicionales si lo necesitas
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Datos recibidos del modal:', result);
+        // Procesa los datos obtenidos del modal
+      }
+    });
+  }
+
+  onClose() {
+    if (this.mode === 'details' || this.mode === 'edit') {
+      this.router.navigate(['/dashboard/category']); // Cambia 'category' al nombre de tu ruta
+    }
+    else{
+      const dialogRef = this.dialog.open(NewCategoryComponent, {
+        panelClass: 'custom-dialog-container',
+        width: '80%'
+      });
+    
+      dialogRef.afterClosed().subscribe(result => {
+        // Maneja lo que suceda después de cerrar el modal
+      });
+    }
+
+    
   }
 
 

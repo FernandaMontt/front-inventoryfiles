@@ -1,0 +1,58 @@
+<h1 mat-dialog-title style="background: #ffffff; color: black;">+Agregar Crossover Definition</h1>
+
+<div mat-dialog-content>
+  <form [formGroup]="crossoverForm">
+    
+    <!-- Línea 1: Descripción -->
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayoutWrap>
+      <label class="custom-label" fxFlex="15" style="color: black;">Descripción</label>
+      <mat-form-field fxFlex="79">
+        <input matInput formControlName="description" placeholder="Descripción">
+      </mat-form-field>
+    </div>
+
+    <!-- Línea 2: Elemento 1 y Operador -->
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayoutWrap>
+      <label class="custom-label" fxFlex="15" style="color: black;">Elemento 1</label>
+      <mat-form-field fxFlex="30">
+        <mat-select formControlName="element1" placeholder="Seleccione un elemento">
+          <mat-option *ngFor="let option of fieldAOptions" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <label class="custom-label" fxFlex="15" style="color: black;">Operador</label>
+      <mat-form-field fxFlex="30">
+        <mat-select formControlName="operator" placeholder="Seleccione un operador">
+          <mat-option *ngFor="let operator of operatorOptions" [value]="operator">
+            {{ operator }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Línea 3: Elemento 2 y Tolerancia -->
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" fxLayoutWrap>
+      <label class="custom-label" fxFlex="15" style="color: black;">Elemento 2</label>
+      <mat-form-field fxFlex="30">
+        <mat-select formControlName="element2" placeholder="Seleccione un elemento">
+          <mat-option *ngFor="let option of fieldBOptions" [value]="option">
+            {{ option }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <label class="custom-label" fxFlex="15" style="color: black;">Tolerancia</label>
+      <mat-form-field fxFlex="30">
+        <input matInput formControlName="tolerance" type="number" placeholder="Tolerancia">
+      </mat-form-field>
+    </div>
+    
+  </form>
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button style="background-color: red; color: white;" (click)="onClose()">Cerrar</button>
+  <button mat-raised-button style="background-color: #430cd7; color: white; border-radius: 5px; margin-right: 10px;" (click)="onSubmit()">Guardar</button>
+</div>

@@ -1,0 +1,40 @@
+<h1 mat-dialog-title style="background: #ffffff; color: black;">Compartir Definición</h1>
+<div mat-dialog-content style="background: #ffffff; color: black;">
+  <mat-table [dataSource]="data.users" class="mat-elevation-z8">
+    
+    <ng-container matColumnDef="columnName">
+      <mat-header-cell *matHeaderCellDef style="background-color: #003366; color: white;"> Usuario </mat-header-cell>
+      <mat-cell *matCellDef="let user" style="background-color: #bbb8b8; color: black;">
+        {{ user.name }}
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="canRead">
+      <mat-header-cell *matHeaderCellDef style="background-color: #003366; color: white;"> Leer </mat-header-cell>
+      <mat-cell *matCellDef="let user" style="background-color: #bbb8b8; color: black;">
+        <mat-checkbox [(ngModel)]="user.canRead"></mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="canExecute">
+      <mat-header-cell *matHeaderCellDef style="background-color: #003366; color: white;"> Ejecutar </mat-header-cell>
+      <mat-cell *matCellDef="let user" style="background-color: #bbb8b8; color: black;">
+        <mat-checkbox [(ngModel)]="user.canExecute"></mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="canWrite">
+      <mat-header-cell *matHeaderCellDef style="background-color: #003366; color: white;"> Escribir </mat-header-cell>
+      <mat-cell *matCellDef="let user" style="background-color: #bbb8b8; color: black;">
+        <mat-checkbox [(ngModel)]="user.canWrite"></mat-checkbox>
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="['columnName', 'canRead', 'canExecute', 'canWrite']"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: ['columnName', 'canRead', 'canExecute', 'canWrite']"></mat-row>
+  </mat-table>
+</div>
+<div mat-dialog-actions>
+  <button mat-button style="background-color: red;" (click)="onClose()">Cancelar</button>
+  <button mat-button style="background-color: #430cd7;" (click)="sharePermissions()">Aceptar</button>
+</div>
