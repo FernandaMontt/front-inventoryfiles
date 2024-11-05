@@ -15,7 +15,7 @@ export class SidenaComponent implements OnInit {
     {name:"Definiciones", route:"category", icon: "inventory"},
     {name:"Ejecuciones", route:"comparacion", icon: "upload_file"},
     {name:"Crear Definición", route:"filescreate", icon: "file_open"},
-    {name:"Nueva Ejecucion", route:"executioncreate", icon: "note_add"},
+    {name:"Ejecutar Definición", route:"executioncreate", icon: "note_add"},
   ]
 
   constructor(media: MediaMatcher) {
